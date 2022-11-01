@@ -10,7 +10,7 @@ export const delay = (ms: number) => new Promise<void>(
     resolve => setTimeout(resolve, ms)
 );
 
-export const stateCircle = (index: number, currIndex: number, arr: Array<string>) => {
+export const stateCircle = (index: number, currIndex: number, arr: Array<string | number>) => {
     let arrLength = arr.length - 1
     if(currIndex < index || currIndex > arrLength - index) {
         return ElementStates.Modified
