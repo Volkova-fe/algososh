@@ -4,7 +4,19 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import {Input} from "../ui/input/input";
 import {Button} from "../ui/button/button";
 import {Circle} from "../ui/circle/circle";
-import {delay, stateCircle} from "../../utils";
+import {delay} from "../../utils";
+import {ElementStates} from "../../types/element-states";
+
+const stateCircle = (index: number, currIndex: number, arr: Array<string | number>) => {
+    let arrLength = arr.length - 1
+    if(currIndex < index || currIndex > arrLength - index) {
+        return ElementStates.Modified
+    }
+    if (currIndex === index || currIndex === arrLength - index) {
+        return ElementStates.Changing
+    }
+    return ElementStates.Default
+}
 
 const swap = (arr: string[], firstIndex: number, secondIndex: number): void => {
     [arr[firstIndex], arr[secondIndex - firstIndex]] = [arr[secondIndex - firstIndex], arr[firstIndex]];

@@ -4,7 +4,7 @@ import {RadioInput} from "../ui/radio-input/radio-input";
 import {Button} from "../ui/button/button";
 import {Direction} from "../../types/direction";
 import style from "./sorting-page.module.css";
-import {delay, swap} from "../../utils";
+import {delay} from "../../utils";
 import {Column} from "../ui/column/column";
 import {ElementStates} from "../../types/element-states";
 
@@ -23,6 +23,12 @@ const array: string = 'array';
 const randomIntFromInterval = (min: number, max: number): number => {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+const swap = (arr: IRandomArr[], firstIndex: number, secondIndex: number): void => {
+    const temp = arr[firstIndex];
+    arr[firstIndex] = arr[secondIndex];
+    arr[secondIndex] = temp;
+};
 
 export const SortingPage: React.FC = () => {
     const [radioOption, setRadioOption] = useState<string>("selection-sort");
