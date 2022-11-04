@@ -1,44 +1,17 @@
-import React, {FormEvent, useEffect, useState} from "react";
-import {SolutionLayout} from "../ui/solution-layout/solution-layout";
+import React, { FormEvent, useEffect, useState } from "react";
+import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import style from "./list-page.module.css";
-import {Input} from "../ui/input/input";
-import {Button} from "../ui/button/button";
-import {LinkedList} from "./utils";
-import {Circle} from "../ui/circle/circle";
-import {ElementStates} from "../../types/element-states";
-import {delay} from "../../utils";
-import {ArrowIcon} from "../ui/icons/arrow-icon";
+import { Input } from "../ui/input/input";
+import { Button } from "../ui/button/button";
+import { LinkedList } from "./class/list-page";
+import { Circle } from "../ui/circle/circle";
+import { ElementStates } from "../../types/element-states";
+import { delay } from "../../utils";
+import { ArrowIcon } from "../ui/icons/arrow-icon";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { IListArr, IStateLoader } from "../../types/list-page";
+import { initialArr, listArr } from "./utils";
 
-interface IShiftElement {
-    value: string;
-    state: ElementStates;
-    position: 'addAction' | 'removeAction';
-}
-
-interface IListArr {
-    value: string,
-    state: ElementStates
-    shiftElement: IShiftElement | null;
-}
-
-interface IStateLoader {
-    insertInBegin: boolean,
-    insertAtEnd:  boolean,
-    appendByIndex: boolean,
-    removeHead: boolean,
-    removeTail: boolean,
-    removeFrom: boolean
-}
-
-const initialArr = ['0', '34', '8', '1'];
-const listArr: IListArr[] =  []
-    for (let i = 0; i <= initialArr.length - 1; i++) {
-        listArr.push({
-            value: initialArr[i],
-            state: ElementStates.Default,
-            shiftElement: null
-        });
-}
 
 export const ListPage: React.FC = () => {
     const [inputValue, setInputValue] = useState<string>('');
@@ -47,7 +20,7 @@ export const ListPage: React.FC = () => {
     const [listArray, setListArray] = useState<IListArr[]>(listArr);
     const [isLoader, setIsLoader] = useState<IStateLoader>({
         insertInBegin: false,
-        insertAtEnd:  false,
+        insertAtEnd: false,
         appendByIndex: false,
         removeHead: false,
         removeTail: false,
@@ -61,22 +34,22 @@ export const ListPage: React.FC = () => {
     }, []);
 
 
-    const onChangeValue = (e:FormEvent<HTMLInputElement>): void => {
+    const onChangeValue = (e: FormEvent<HTMLInputElement>): void => {
         const string = e.currentTarget.value.trim();
         setInputValue(string);
     }
 
-    const onChangeIndex = (e:FormEvent<HTMLInputElement>): void => {
+    const onChangeIndex = (e: FormEvent<HTMLInputElement>): void => {
         const string = e.currentTarget.value.trim();
         setInputIndex(string);
     }
 
     const handleClickAddHead = async () => {
-        setIsLoader({...isLoader, insertInBegin: true});
+        setIsLoader({ ...isLoader, insertInBegin: true });
         setDisabled(true);
         setInputValue('');
         list.insertInBegin(inputValue);
-        if(listArray.length > 0) {
+        if (listArray.length > 0) {
             listArray[0].shiftElement = {
                 value: inputValue,
                 state: ElementStates.Changing,
@@ -84,7 +57,7 @@ export const ListPage: React.FC = () => {
             }
         }
         setListArray([...listArray]);
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
         listArray[0].shiftElement = null;
         listArray.unshift({
             ...listArray[0],
@@ -92,15 +65,15 @@ export const ListPage: React.FC = () => {
             state: ElementStates.Modified
         });
         setListArray([...listArray]);
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
         listArray[0].state = ElementStates.Default;
         setListArray([...listArray]);
-        setIsLoader({...isLoader, insertInBegin: false});
+        setIsLoader({ ...isLoader, insertInBegin: false });
         setDisabled(false);
     }
 
     const handleClickAddTail = async () => {
-        setIsLoader({...isLoader, insertAtEnd: true});
+        setIsLoader({ ...isLoader, insertAtEnd: true });
         setDisabled(true);
         setInputValue('');
         list.insertAtEnd(inputValue);
@@ -113,7 +86,7 @@ export const ListPage: React.FC = () => {
             }
         }
         setListArray([...listArray]);
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
         listArray[listArray.length - 1] = {
             ...listArray[listArray.length - 1],
             shiftElement: null
@@ -125,18 +98,18 @@ export const ListPage: React.FC = () => {
             shiftElement: null,
         })
         setListArray([...listArray]);
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
         listArray[listArray.length - 1].state = ElementStates.Default;
         setListArray([...listArray]);
-        setIsLoader({...isLoader, insertAtEnd: false});
+        setIsLoader({ ...isLoader, insertAtEnd: false });
         setDisabled(false);
     }
 
     const handleClickAddByIndex = async () => {
-        setIsLoader({...isLoader, appendByIndex: true});
+        setIsLoader({ ...isLoader, appendByIndex: true });
         setDisabled(true);
         list.appendByIndex(inputValue, Number(inputIndex));
-        for(let i = 0; i <= Number(inputIndex); i++) {
+        for (let i = 0; i <= Number(inputIndex); i++) {
             listArray[i] = {
                 ...listArray[i],
                 state: ElementStates.Changing,
@@ -146,9 +119,9 @@ export const ListPage: React.FC = () => {
                     position: "addAction"
                 }
             }
-            await delay(500);
+            await delay(SHORT_DELAY_IN_MS);
             setListArray([...listArray]);
-            if(i > 0) {
+            if (i > 0) {
                 listArray[i - 1] = {
                     ...listArray[i - 1],
                     shiftElement: null
@@ -156,7 +129,7 @@ export const ListPage: React.FC = () => {
             }
             setListArray([...listArray]);
         }
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
         listArray[Number(inputIndex)] = {
             ...listArray[Number(inputIndex)],
             state: ElementStates.Default,
@@ -172,16 +145,16 @@ export const ListPage: React.FC = () => {
         listArray.forEach((elem: IListArr) => {
             elem.state = ElementStates.Default;
         })
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
         setListArray([...listArray]);
         setInputValue('');
         setInputIndex('');
-        setIsLoader({...isLoader, appendByIndex: false});
+        setIsLoader({ ...isLoader, appendByIndex: false });
         setDisabled(false);
     }
 
     const handleClickRemoveHead = async () => {
-        setIsLoader({...isLoader, removeHead: true});
+        setIsLoader({ ...isLoader, removeHead: true });
         setDisabled(true);
         listArray[0] = {
             ...listArray[0],
@@ -194,15 +167,15 @@ export const ListPage: React.FC = () => {
         }
         list.removeHead();
         setListArray([...listArray]);
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
         listArray.shift();
         setListArray([...listArray]);
-        setIsLoader({...isLoader, removeHead: false});
+        setIsLoader({ ...isLoader, removeHead: false });
         setDisabled(false);
     }
 
     const handleClickRemoveTail = async () => {
-        setIsLoader({...isLoader, removeTail: true});
+        setIsLoader({ ...isLoader, removeTail: true });
         setDisabled(true);
         listArray[listArray.length - 1] = {
             ...listArray[listArray.length - 1],
@@ -215,24 +188,24 @@ export const ListPage: React.FC = () => {
         }
         list.removeTail();
         setListArray([...listArray]);
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
         listArray.pop();
         setListArray([...listArray]);
-        setIsLoader({...isLoader, removeTail: false});
+        setIsLoader({ ...isLoader, removeTail: false });
         setDisabled(false);
     }
 
     const handleClickRemoveByIndex = async () => {
-        setIsLoader({...isLoader, removeFrom: true});
+        setIsLoader({ ...isLoader, removeFrom: true });
         setDisabled(true);
         setInputIndex('');
         list.removeFrom(Number(inputIndex));
-        for(let i = 0; i <= Number(inputIndex); i++) {
+        for (let i = 0; i <= Number(inputIndex); i++) {
             listArray[i] = {
                 ...listArray[i],
                 state: ElementStates.Changing,
             }
-            await delay(500);
+            await delay(SHORT_DELAY_IN_MS);
             setListArray([...listArray]);
         }
         listArray[Number(inputIndex)] = {
@@ -244,7 +217,7 @@ export const ListPage: React.FC = () => {
                 position: "removeAction"
             }
         }
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
         setListArray([...listArray]);
         listArray.splice(Number(inputIndex), 1)
         listArray[Number(inputIndex) - 1] = {
@@ -253,113 +226,113 @@ export const ListPage: React.FC = () => {
             state: ElementStates.Modified,
             shiftElement: null
         }
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
         setListArray([...listArray]);
         listArray.forEach((elem) => {
             elem.state = ElementStates.Default;
         })
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
         setListArray([...listArray]);
-        setIsLoader({...isLoader, removeFrom: false});
+        setIsLoader({ ...isLoader, removeFrom: false });
         setDisabled(false);
     }
 
-  return (
-    <SolutionLayout title="Связный список">
-      <form className={style.form} onSubmit={(e) => e.preventDefault()}>
-          <Input
-              onChange={onChangeValue}
-              placeholder="Введите значение"
-              isLimitText={true}
-              maxLength={4}
-              disabled={disabled}
-              value={inputValue}
-              extraClass={`${style.input} mr-6`}
-          />
-          <div className={style.btns_group}>
-            <Button
-                text="Добавить в head"
-                extraClass={style.btn_small}
-                onClick={handleClickAddHead}
-                isLoader={isLoader.insertInBegin}
-                disabled={!inputValue || disabled}
-            />
-            <Button
-                text="Добавить в tail"
-                extraClass={style.btn_small}
-                onClick={handleClickAddTail}
-                disabled={!inputValue || disabled}
-                isLoader={isLoader.insertAtEnd}
-            />
-          <Button
-              text="Удалить из head"
-              extraClass={style.btn_small}
-              onClick={handleClickRemoveHead}
-              isLoader={isLoader.removeHead}
-              disabled={listArray.length === 0 || disabled}
-          />
-            <Button
-                text="Удалить из tail"
-                extraClass={style.btn_small}
-                onClick={handleClickRemoveTail}
-                isLoader={isLoader.removeTail}
-                disabled={listArray.length === 0 || disabled}
-            />
-          </div>
-      </form>
-    <form className={style.form} onSubmit={(e) => e.preventDefault()}>
-        <Input
-            onChange={onChangeIndex}
-            isLimitText={false}
-            maxLength={1}
-            disabled={disabled}
-            value={inputIndex}
-            placeholder="Введите индекс"
-            extraClass={`${style.input} mr-6`}
-        />
-        <div className={style.btns_group}>
-        <Button
-            text="Добавить по индексу"
-            extraClass={`${style.btn_large} mr-6`}
-            onClick={handleClickAddByIndex}
-            isLoader={isLoader.appendByIndex}
-            disabled={!inputValue || !inputIndex || disabled}
-        />
-        <Button
-            text="Удалить по индексу"
-            extraClass={`${style.btn_large}`}
-            onClick={handleClickRemoveByIndex}
-            isLoader={isLoader.removeFrom}
-            disabled={!inputValue || !inputIndex || listArray.length === 0 || disabled}
-        />
-        </div>
-      </form>
-        <ul className={style.list}>
-            {listArray.map((item, index) => {
-                return  (
-                    <li className={style.item}   key={index}>
-                        {item.shiftElement && (
+    return (
+        <SolutionLayout title="Связный список">
+            <form className={style.form} onSubmit={(e) => e.preventDefault()}>
+                <Input
+                    onChange={onChangeValue}
+                    placeholder="Введите значение"
+                    isLimitText={true}
+                    maxLength={4}
+                    disabled={disabled}
+                    value={inputValue}
+                    extraClass={`${style.input} mr-6`}
+                />
+                <div className={style.btns_group}>
+                    <Button
+                        text="Добавить в head"
+                        extraClass={style.btn_small}
+                        onClick={handleClickAddHead}
+                        isLoader={isLoader.insertInBegin}
+                        disabled={!inputValue || disabled}
+                    />
+                    <Button
+                        text="Добавить в tail"
+                        extraClass={style.btn_small}
+                        onClick={handleClickAddTail}
+                        disabled={!inputValue || disabled}
+                        isLoader={isLoader.insertAtEnd}
+                    />
+                    <Button
+                        text="Удалить из head"
+                        extraClass={style.btn_small}
+                        onClick={handleClickRemoveHead}
+                        isLoader={isLoader.removeHead}
+                        disabled={listArray.length === 0 || disabled}
+                    />
+                    <Button
+                        text="Удалить из tail"
+                        extraClass={style.btn_small}
+                        onClick={handleClickRemoveTail}
+                        isLoader={isLoader.removeTail}
+                        disabled={listArray.length === 0 || disabled}
+                    />
+                </div>
+            </form>
+            <form className={style.form} onSubmit={(e) => e.preventDefault()}>
+                <Input
+                    onChange={onChangeIndex}
+                    isLimitText={false}
+                    maxLength={1}
+                    disabled={disabled}
+                    value={inputIndex}
+                    placeholder="Введите индекс"
+                    extraClass={`${style.input} mr-6`}
+                />
+                <div className={style.btns_group}>
+                    <Button
+                        text="Добавить по индексу"
+                        extraClass={`${style.btn_large} mr-6`}
+                        onClick={handleClickAddByIndex}
+                        isLoader={isLoader.appendByIndex}
+                        disabled={!inputValue || !inputIndex || disabled}
+                    />
+                    <Button
+                        text="Удалить по индексу"
+                        extraClass={`${style.btn_large}`}
+                        onClick={handleClickRemoveByIndex}
+                        isLoader={isLoader.removeFrom}
+                        disabled={!inputValue || !inputIndex || listArray.length === 0 || disabled}
+                    />
+                </div>
+            </form>
+            <ul className={style.list}>
+                {listArray.map((item, index) => {
+                    return (
+                        <li className={style.item} key={index}>
+                            {item.shiftElement && (
+                                <Circle
+                                    extraClass={`${style.circle_small} ${style[`${item.shiftElement.position}`]}`}
+                                    letter={item.shiftElement.value}
+                                    state={item.shiftElement.state}
+                                    isSmall
+                                />
+                            )}
                             <Circle
-                                extraClass={`${style.circle_small} ${style[`${item.shiftElement.position}`]}`}
-                                letter={item.shiftElement.value}
-                                state={item.shiftElement.state}
-                                isSmall
+                                letter={item.value}
+                                index={index}
+                                head={index === 0 && !item.shiftElement ? "head" : ""}
+                                tail={index === listArray.length - 1 && !item.shiftElement ? "tail" : ""}
+                                isSmall={false}
+                                state={item.state}
+                                extraClass="mr-12"
                             />
-                        )}
-                        <Circle
-                            letter={item.value}
-                            index={index }
-                            head={index === 0 && !item.shiftElement ? "head" : ""}
-                            tail={index === listArray.length - 1 && !item.shiftElement ? "tail" : ""}
-                            isSmall={false}
-                            state={item.state}
-                            extraClass="mr-12"
-                        />
-                        {index < listArray.length - 1 &&
-                            <ArrowIcon fill={item.state !== ElementStates.Changing ? "#0032FF" : "#d252e1"}/>}
-                    </li> )
-            })}
-        </ul>
-    </SolutionLayout>
-  );
+                            {index < listArray.length - 1 &&
+                                <ArrowIcon fill={item.state !== ElementStates.Changing ? "#0032FF" : "#d252e1"} />}
+                        </li>)
+                })}
+            </ul>
+        </SolutionLayout>
+    );
 };

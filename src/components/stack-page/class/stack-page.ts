@@ -21,7 +21,7 @@ export class Stack<T> implements IStack<T> {
         this.container = [];
     }
 
-    peak = (): number  => {
+    peak = (): number => {
         return this.getSize() - 1;
     };
 
