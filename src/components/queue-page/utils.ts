@@ -1,7 +1,6 @@
 interface IQueue<T> {
     enqueue: (item: T) => void;
     dequeue: () => void;
-    peak: () => T | undefined;
     getHead: () => number;
     getTail: () => number;
     clear: () => void;
@@ -40,17 +39,7 @@ export class Queue<T> implements IQueue<T> {
         this.length--;
     };
 
-    peak = (): T | undefined => {
-        if (this.isEmpty()) {
-            throw new Error("No elements in the queue");
-        } else {
-            return this.container[this.head]
-        }
-    };
-
     getSize = () => this.size;
-
-    getLength = () => this.length;
 
     isEmpty = () => this.length === 0;
 

@@ -15,7 +15,6 @@ export const QueuePage: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
   const [queue] = useState(new Queue<string>(size));
   const [queueArray, setQueueArray] = useState<(string | undefined)[]>(queue.printQueue());
-  const [length, setLength] = useState<number>(queue.getLength());
   const [head, setHead] = useState<number>(queue.getHead());
   const [tail, setTail] = useState<number>(queue.getTail());
 
@@ -29,7 +28,6 @@ export const QueuePage: React.FC = () => {
       queue.enqueue(item);
       setInputValue('')
       setQueueArray([...queue.printQueue()]);
-      setLength(queue.getLength());
       setTail(queue.getTail());
       setCurrentIndex(tail % queue.getSize());
       await delay(500);
@@ -44,7 +42,6 @@ export const QueuePage: React.FC = () => {
       setCurrentIndex((head & queue.getSize()));
       await delay(500);
       setHead(queue.getHead());
-      setLength(queue.getLength());
       setCurrentIndex(-1);
       await delay(500);
     }
@@ -55,7 +52,6 @@ export const QueuePage: React.FC = () => {
     setQueueArray(queue.printQueue());
     setHead(queue.getHead());
     setTail(queue.getTail());
-    setLength(queue.getLength());
   }
 
   return (
