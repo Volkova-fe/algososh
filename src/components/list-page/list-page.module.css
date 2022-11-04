@@ -19,7 +19,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    position: relative;
+    list-style: none;
 }
 
 .input {
@@ -44,12 +44,28 @@
     width: 100%;
 }
 
-.circle {
+.item {
     position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.circle {
+    margin-right: 12px;
 }
 
 .circle_small {
-    top: 0;
-    left: 0;
     position: absolute;
+    display: flex;
+    align-items: center;
+}
+
+.addAction {
+    top: -65px;
+    left: 14px;
+}
+
+.removeAction {
+    bottom: -90px;
+    left: 10px;
 }

@@ -22,7 +22,7 @@ interface ILinkedList<T> {
 export class LinkedList<T> implements ILinkedList<T> {
     private head: Node<T> | null;
     private size: number;
-    constructor() {
+    constructor(initialArray: T[]) {
         this.head = null;
         this.size = 0;
     }
