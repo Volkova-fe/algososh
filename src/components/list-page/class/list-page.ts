@@ -14,7 +14,6 @@ interface ILinkedList<T> {
     deleteHead: () => void;
     deleteTail: () => void;
     deleteByIndex: (position: number) => void;
-    getSize: () => number;
     toArray: () => void;
 }
 
@@ -24,55 +23,50 @@ export class LinkedList<T> implements ILinkedList<T> {
     constructor(initialArray: T[]) {
         this.head = null;
         this.size = 0;
-        initialArray.forEach(element => this.addByIndex(element, 0))
+        initialArray.forEach(element => this.append(element))
     }
 
     prepend(element: T): void {
         const node = new Node(element, this.head);
-        if (this.head) {
-            node.next = this.head;
-            this.head = node;
-        }
         this.head = node;
         this.size++;
     }
 
     append(element: T) {
         const node = new Node(element);
-        let current;
-
         if (this.head) {
+            let current = this.head;
             current = this.head;
             while (current.next) {
                 current = current.next;
             }
             current.next = node;
+        } else {
+            this.head = node;
         }
-        this.head = node;
         this.size++;
     }
 
     addByIndex(element: T, index: number) {
         if (index < 0 || index > this.size) {
             return;
+        }
+        if (!this.head || index <= 0) {
+            this.prepend(element);
+        }
+        else if (index >= (this.size - 1)) {
+            this.append(element);
         } else {
-            const node = new Node(element);
+            let current = this.head;
+            let currentIndex = 0;
 
-            if (index === 0) {
-                node.next = this.head;
-                this.head = node;
-            } else if (this.head) {
-                let curr = this.head;
-                let currIndex = 0;
-
-                while (currIndex < index && curr.next) {
-                    curr = curr.next;
-                    currIndex++;
-                }
-
-                node.next = curr.next;
-                curr.next = node;
+            while (currentIndex != (index - 1) && current.next) {
+                current = current.next;
+                currentIndex++;
             }
+
+            const node = new Node(element, current.next);
+            current.next = node;
             this.size++;
         }
     }
@@ -120,9 +114,6 @@ export class LinkedList<T> implements ILinkedList<T> {
         this.size--;
     }
 
-    getSize() {
-        return this.size;
-    }
 
     toArray() {
         let curr = this.head;
