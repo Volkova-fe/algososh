@@ -1,10 +1,13 @@
-export const fib = (n: number, memo: Record<number, number> = {}): number => {
-	if (n in memo) {
-		return memo[n];
+export const MINVALUE: number = 1;
+export const MAXVALUE: number = 19;
+export const MAXLEN: number = 2;
+
+export function getFibonacciNumbers(count: number) {
+	const fibonacciNumbers = [1, 1];
+	for (let i = 2; i <= count; i++) {
+		const a = fibonacciNumbers[i - 1];
+		const b = fibonacciNumbers[i - 2];
+		fibonacciNumbers.push(a + b);
 	}
-	if (n <= 2) {
-		return 1;
-	}
-	memo[n] = fib(n - 1, memo) + fib(n - 2, memo);
-	return memo[n];
-};
+	return fibonacciNumbers;
+}

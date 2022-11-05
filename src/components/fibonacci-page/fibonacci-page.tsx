@@ -4,9 +4,7 @@ import style from "./fibonacci-page.module.css";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
-import { delay } from "../../utils";
-import { SHORT_DELAY_IN_MS } from "../../constants/delays";
-import { fib } from "./utils";
+import { getFibonacciNumbers, MAXLEN, MAXVALUE, MINVALUE } from "./utils";
 
 export const FibonacciPage: React.FC = () => {
   const [isLoader, setIsLoader] = useState<boolean>(false);
@@ -18,24 +16,13 @@ export const FibonacciPage: React.FC = () => {
     setInputValue(number);
   }
 
-  const getFibArray = async () => {
-    setIsLoader(true);
-    const arrayOfFib = [];
-    for (let i = 1; i <= Number(inputValue) + 1; i++) {
-      await delay(SHORT_DELAY_IN_MS);
-      arrayOfFib.push(fib(i));
-      setFibArray([...arrayOfFib]);
-    }
-    setIsLoader(false);
-  }
-
   const onClickForm = (e: FormEvent<HTMLFormElement> | FormEvent<HTMLButtonElement>): void => {
     e.preventDefault();
-    getFibArray();
+    setFibArray(getFibonacciNumbers(Number(inputValue)));
     setInputValue('');
   }
 
-  const inputLimit = 1 <= inputValue && inputValue <= 19 ? false : true;
+  const inputLimit = MINVALUE <= inputValue && inputValue <= MAXVALUE ? false : true;
 
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
@@ -44,8 +31,8 @@ export const FibonacciPage: React.FC = () => {
           type="number"
           onChange={onChange}
           isLimitText={true}
-          maxLength={2}
-          max={19}
+          maxLength={MAXLEN}
+          max={MAXVALUE}
           value={inputValue}
           extraClass="mr-6"
         />

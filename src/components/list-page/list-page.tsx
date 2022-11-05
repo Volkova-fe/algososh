@@ -15,7 +15,7 @@ import { initialArr, listArr } from "./utils";
 
 export const ListPage: React.FC = () => {
     const [inputValue, setInputValue] = useState<string>('');
-    const [inputIndex, setInputIndex] = useState<string>('');
+    const [inputIndex, setInputIndex] = useState<number>(0);
     const [disabled, setDisabled] = useState<boolean>(false);
     const [listArray, setListArray] = useState<IListArr[]>(listArr);
     const [isLoader, setIsLoader] = useState<IStateLoader>({
@@ -29,10 +29,6 @@ export const ListPage: React.FC = () => {
 
     const list = new LinkedList<string>(initialArr);
 
-    useEffect(() => {
-        setListArray(listArr)
-    }, []);
-
 
     const onChangeValue = (e: FormEvent<HTMLInputElement>): void => {
         const string = e.currentTarget.value.trim();
@@ -40,25 +36,31 @@ export const ListPage: React.FC = () => {
     }
 
     const onChangeIndex = (e: FormEvent<HTMLInputElement>): void => {
-        const string = e.currentTarget.value.trim();
-        setInputIndex(string);
+        const number = e.currentTarget.value.trim();
+        setInputIndex(Number(number));
     }
 
     const handleClickAddHead = async () => {
         setIsLoader({ ...isLoader, insertInBegin: true });
         setDisabled(true);
         setInputValue('');
-        list.insertInBegin(inputValue);
+        list.appendByIndex(inputValue, 0);
         if (listArray.length > 0) {
-            listArray[0].shiftElement = {
+            listArray[0] = { 
+                ...listArray[0],
+                shiftElement: {
                 value: inputValue,
                 state: ElementStates.Changing,
                 position: 'addAction',
             }
         }
+        }
         setListArray([...listArray]);
         await delay(SHORT_DELAY_IN_MS);
-        listArray[0].shiftElement = null;
+        listArray[0] = { 
+            ...listArray[0],
+            shiftElement: null
+        }
         listArray.unshift({
             ...listArray[0],
             value: inputValue,
@@ -148,7 +150,7 @@ export const ListPage: React.FC = () => {
         await delay(SHORT_DELAY_IN_MS);
         setListArray([...listArray]);
         setInputValue('');
-        setInputIndex('');
+        setInputIndex(0);
         setIsLoader({ ...isLoader, appendByIndex: false });
         setDisabled(false);
     }
@@ -198,7 +200,7 @@ export const ListPage: React.FC = () => {
     const handleClickRemoveByIndex = async () => {
         setIsLoader({ ...isLoader, removeFrom: true });
         setDisabled(true);
-        setInputIndex('');
+        setInputIndex(0);
         list.removeFrom(Number(inputIndex));
         for (let i = 0; i <= Number(inputIndex); i++) {
             listArray[i] = {
@@ -284,7 +286,9 @@ export const ListPage: React.FC = () => {
                 <Input
                     onChange={onChangeIndex}
                     isLimitText={false}
+                    type="number"
                     maxLength={1}
+                    max={9}
                     disabled={disabled}
                     value={inputIndex}
                     placeholder="Введите индекс"
@@ -296,14 +300,23 @@ export const ListPage: React.FC = () => {
                         extraClass={`${style.btn_large} mr-6`}
                         onClick={handleClickAddByIndex}
                         isLoader={isLoader.appendByIndex}
-                        disabled={!inputValue || !inputIndex || disabled}
+                        disabled={
+                            !inputValue
+                            || !inputIndex
+                            || disabled
+                            || Number(inputIndex) > listArray.length
+                        }
                     />
                     <Button
                         text="Удалить по индексу"
                         extraClass={`${style.btn_large}`}
                         onClick={handleClickRemoveByIndex}
                         isLoader={isLoader.removeFrom}
-                        disabled={!inputValue || !inputIndex || listArray.length === 0 || disabled}
+                        disabled={
+                            !inputIndex
+                            || listArray.length === 0
+                            || disabled
+                            || Number(inputIndex) > listArray.length - 1}
                     />
                 </div>
             </form>
