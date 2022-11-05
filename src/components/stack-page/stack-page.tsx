@@ -8,14 +8,21 @@ import { delay } from "../../utils";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { IStackOueueLoader } from "../../types/stack-queue-page";
 
 const stack = new Stack<string>();
+const MAXLEN = 9;
 
 export const StackPage: React.FC = () => {
-  const [isLoader, setIsLoader] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
   const [stackArray, setStackArray] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [isLoader, setIsLoader] = useState<IStackOueueLoader>({
+    addValue: false,
+    removeValue: false,
+    clearValue: false,
+    disabled: false,
+  });
 
 
   const onChange = (e: FormEvent<HTMLInputElement>): void => {
@@ -24,18 +31,38 @@ export const StackPage: React.FC = () => {
   }
 
   const push = async (item: string) => {
+    setIsLoader({
+      ...isLoader,
+      addValue: true,
+      disabled: true
+    });
     stack.push(item);
     setStackArray(stack.printStack());
     setInputValue('');
     await delay(SHORT_DELAY_IN_MS);
     setCurrentIndex(currentIndex + 1);
+    setIsLoader({
+      ...isLoader,
+      addValue: false,
+      disabled: false
+    });
   }
 
   const pop = async () => {
+    setIsLoader({
+      ...isLoader,
+      removeValue: true,
+      disabled: true
+    });
     setCurrentIndex(stack.getSize() - 1);
     await delay(SHORT_DELAY_IN_MS);
     stack.pop();
     setStackArray([...stack.printStack()]);
+    setIsLoader({
+      ...isLoader,
+      removeValue: false,
+      disabled: false
+    });
   }
 
   const peak = () => {
@@ -43,9 +70,19 @@ export const StackPage: React.FC = () => {
   }
 
   const clear = () => {
+    setIsLoader({
+      ...isLoader,
+      clearValue: true,
+      disabled: true
+    });
     stack.clear();
     setStackArray(stack.printStack());
     setCurrentIndex(0);
+    setIsLoader({
+      ...isLoader,
+      clearValue: false,
+      disabled: false
+    });
   }
 
   return (
@@ -53,6 +90,7 @@ export const StackPage: React.FC = () => {
       <form className={style.form} onSubmit={(e) => e.preventDefault()}>
         <div className={style.input_group}>
           <Input
+            disabled={isLoader.disabled}
             onChange={onChange}
             isLimitText={true}
             maxLength={4}
@@ -60,22 +98,24 @@ export const StackPage: React.FC = () => {
             extraClass="mr-6"
           />
           <Button
-            isLoader={isLoader}
+            isLoader={isLoader.addValue}
             text="Добавить"
             onClick={() => push(inputValue)}
-            disabled={!inputValue}
+            disabled={!inputValue || isLoader.disabled || Number(inputValue) >= MAXLEN}
             extraClass="mr-6"
           />
           <Button
+            isLoader={isLoader.removeValue}
             text="Удалить"
             onClick={() => pop()}
-            disabled={stackArray.length < 1}
+            disabled={stackArray.length < 1 || isLoader.disabled}
           />
         </div>
         <Button
+          isLoader={isLoader.clearValue}
           text="Очистить"
           onClick={() => clear()}
-          disabled={stackArray.length < 1}
+          disabled={stackArray.length < 1 || isLoader.disabled}
         />
       </form>
       <ul className={style.list}>

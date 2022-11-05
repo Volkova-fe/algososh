@@ -1,5 +1,7 @@
 import { ElementStates } from "../../types/element-states"
 
+export const MAXLEN = 11;
+
 export const stateCircle = (index: number, currIndex: number, arr: Array<string | number>) => {
 	let arrLength = arr.length - 1
 	if (currIndex < index || currIndex > arrLength - index) {

@@ -5,7 +5,7 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { delay } from "../../utils";
-import { stateCircle, swap } from "./utils";
+import { MAXLEN, stateCircle, swap } from "./utils";
 import { DELAY_IN_MS } from "../../constants/delays";
 
 export const StringComponent: FC = () => {
@@ -55,7 +55,7 @@ export const StringComponent: FC = () => {
                 <Input
                     onChange={onChange}
                     isLimitText={true}
-                    maxLength={11}
+                    maxLength={MAXLEN}
                     value={inputValue}
                     extraClass="mr-6"
                 />

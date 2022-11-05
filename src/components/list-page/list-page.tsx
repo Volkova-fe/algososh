@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import style from "./list-page.module.css";
 import { Input } from "../ui/input/input";
@@ -10,12 +10,12 @@ import { delay } from "../../utils";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { IListArr, IStateLoader } from "../../types/list-page";
-import { initialArr, listArr } from "./utils";
+import { initialArr, listArr, MAXINDEX, MAXLEN } from "./utils";
 
 
 export const ListPage: React.FC = () => {
     const [inputValue, setInputValue] = useState<string>('');
-    const [inputIndex, setInputIndex] = useState<number>(0);
+    const [inputIndex, setInputIndex] = useState<number>(1);
     const [disabled, setDisabled] = useState<boolean>(false);
     const [listArray, setListArray] = useState<IListArr[]>(listArr);
     const [isLoader, setIsLoader] = useState<IStateLoader>({
@@ -43,24 +43,17 @@ export const ListPage: React.FC = () => {
     const handleClickAddHead = async () => {
         setIsLoader({ ...isLoader, insertInBegin: true });
         setDisabled(true);
-        setInputValue('');
-        list.appendByIndex(inputValue, 0);
+        list.prepend(inputValue);
         if (listArray.length > 0) {
-            listArray[0] = { 
-                ...listArray[0],
-                shiftElement: {
+            listArray[0].shiftElement = {
                 value: inputValue,
                 state: ElementStates.Changing,
                 position: 'addAction',
             }
         }
-        }
         setListArray([...listArray]);
         await delay(SHORT_DELAY_IN_MS);
-        listArray[0] = { 
-            ...listArray[0],
-            shiftElement: null
-        }
+        listArray[0].shiftElement = null;
         listArray.unshift({
             ...listArray[0],
             value: inputValue,
@@ -72,13 +65,14 @@ export const ListPage: React.FC = () => {
         setListArray([...listArray]);
         setIsLoader({ ...isLoader, insertInBegin: false });
         setDisabled(false);
+        setInputValue('');
     }
 
     const handleClickAddTail = async () => {
         setIsLoader({ ...isLoader, insertAtEnd: true });
         setDisabled(true);
         setInputValue('');
-        list.insertAtEnd(inputValue);
+        list.append(inputValue);
         listArray[listArray.length - 1] = {
             ...listArray[listArray.length - 1],
             shiftElement: {
@@ -110,8 +104,8 @@ export const ListPage: React.FC = () => {
     const handleClickAddByIndex = async () => {
         setIsLoader({ ...isLoader, appendByIndex: true });
         setDisabled(true);
-        list.appendByIndex(inputValue, Number(inputIndex));
-        for (let i = 0; i <= Number(inputIndex); i++) {
+        list.addByIndex(inputValue, inputIndex);
+        for (let i = 0; i <= inputIndex; i++) {
             listArray[i] = {
                 ...listArray[i],
                 state: ElementStates.Changing,
@@ -132,25 +126,25 @@ export const ListPage: React.FC = () => {
             setListArray([...listArray]);
         }
         await delay(SHORT_DELAY_IN_MS);
-        listArray[Number(inputIndex)] = {
-            ...listArray[Number(inputIndex)],
+        listArray[inputIndex] = {
+            ...listArray[inputIndex],
             state: ElementStates.Default,
             shiftElement: null
         }
-        listArray.splice(Number(inputIndex), 0, {
+        listArray.splice(inputIndex, 0, {
             value: inputValue,
             state: ElementStates.Modified,
             shiftElement: null
         })
         setListArray([...listArray]);
-        listArray[Number(inputIndex)].state = ElementStates.Default;
+        listArray[inputIndex].state = ElementStates.Default;
         listArray.forEach((elem: IListArr) => {
             elem.state = ElementStates.Default;
         })
         await delay(SHORT_DELAY_IN_MS);
         setListArray([...listArray]);
         setInputValue('');
-        setInputIndex(0);
+        setInputIndex(1);
         setIsLoader({ ...isLoader, appendByIndex: false });
         setDisabled(false);
     }
@@ -167,7 +161,7 @@ export const ListPage: React.FC = () => {
                 position: "removeAction"
             }
         }
-        list.removeHead();
+        list.deleteHead();
         setListArray([...listArray]);
         await delay(SHORT_DELAY_IN_MS);
         listArray.shift();
@@ -188,7 +182,7 @@ export const ListPage: React.FC = () => {
                 position: "removeAction"
             }
         }
-        list.removeTail();
+        list.deleteTail();
         setListArray([...listArray]);
         await delay(SHORT_DELAY_IN_MS);
         listArray.pop();
@@ -200,9 +194,8 @@ export const ListPage: React.FC = () => {
     const handleClickRemoveByIndex = async () => {
         setIsLoader({ ...isLoader, removeFrom: true });
         setDisabled(true);
-        setInputIndex(0);
-        list.removeFrom(Number(inputIndex));
-        for (let i = 0; i <= Number(inputIndex); i++) {
+        list.deleteByIndex(inputIndex);
+        for (let i = 0; i <= inputIndex; i++) {
             listArray[i] = {
                 ...listArray[i],
                 state: ElementStates.Changing,
@@ -210,21 +203,21 @@ export const ListPage: React.FC = () => {
             await delay(SHORT_DELAY_IN_MS);
             setListArray([...listArray]);
         }
-        listArray[Number(inputIndex)] = {
-            ...listArray[Number(inputIndex)],
+        listArray[inputIndex] = {
+            ...listArray[inputIndex],
             value: '',
             shiftElement: {
-                value: listArray[Number(inputIndex)].value,
+                value: listArray[inputIndex].value,
                 state: ElementStates.Changing,
                 position: "removeAction"
             }
         }
         await delay(SHORT_DELAY_IN_MS);
         setListArray([...listArray]);
-        listArray.splice(Number(inputIndex), 1)
-        listArray[Number(inputIndex) - 1] = {
-            ...listArray[Number(inputIndex) - 1],
-            value: listArray[Number(inputIndex) - 1].value,
+        listArray.splice(inputIndex, 1)
+        listArray[inputIndex - 1] = {
+            ...listArray[inputIndex - 1],
+            value: listArray[inputIndex - 1].value,
             state: ElementStates.Modified,
             shiftElement: null
         }
@@ -237,6 +230,7 @@ export const ListPage: React.FC = () => {
         setListArray([...listArray]);
         setIsLoader({ ...isLoader, removeFrom: false });
         setDisabled(false);
+        setInputIndex(1);
     }
 
     return (
@@ -257,13 +251,13 @@ export const ListPage: React.FC = () => {
                         extraClass={style.btn_small}
                         onClick={handleClickAddHead}
                         isLoader={isLoader.insertInBegin}
-                        disabled={!inputValue || disabled}
+                        disabled={!inputValue || disabled || listArray.length >= MAXINDEX}
                     />
                     <Button
                         text="Добавить в tail"
                         extraClass={style.btn_small}
                         onClick={handleClickAddTail}
-                        disabled={!inputValue || disabled}
+                        disabled={!inputValue || disabled || listArray.length >= MAXINDEX}
                         isLoader={isLoader.insertAtEnd}
                     />
                     <Button
@@ -271,14 +265,14 @@ export const ListPage: React.FC = () => {
                         extraClass={style.btn_small}
                         onClick={handleClickRemoveHead}
                         isLoader={isLoader.removeHead}
-                        disabled={listArray.length === 0 || disabled}
+                        disabled={listArray.length <= 1 || disabled}
                     />
                     <Button
                         text="Удалить из tail"
                         extraClass={style.btn_small}
                         onClick={handleClickRemoveTail}
                         isLoader={isLoader.removeTail}
-                        disabled={listArray.length === 0 || disabled}
+                        disabled={listArray.length <= 1 || disabled}
                     />
                 </div>
             </form>
@@ -287,8 +281,8 @@ export const ListPage: React.FC = () => {
                     onChange={onChangeIndex}
                     isLimitText={false}
                     type="number"
-                    maxLength={1}
-                    max={9}
+                    maxLength={MAXLEN}
+                    max={MAXINDEX}
                     disabled={disabled}
                     value={inputIndex}
                     placeholder="Введите индекс"
@@ -304,7 +298,8 @@ export const ListPage: React.FC = () => {
                             !inputValue
                             || !inputIndex
                             || disabled
-                            || Number(inputIndex) > listArray.length
+                            || inputIndex > listArray.length - 1
+                            || listArray.length >= MAXINDEX
                         }
                     />
                     <Button
@@ -313,10 +308,11 @@ export const ListPage: React.FC = () => {
                         onClick={handleClickRemoveByIndex}
                         isLoader={isLoader.removeFrom}
                         disabled={
-                            !inputIndex
-                            || listArray.length === 0
+                            listArray.length === 0
                             || disabled
-                            || Number(inputIndex) > listArray.length - 1}
+                            || inputIndex > listArray.length - 1
+                            || inputIndex < 1
+                        }
                     />
                 </div>
             </form>
