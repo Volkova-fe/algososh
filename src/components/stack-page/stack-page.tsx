@@ -11,7 +11,8 @@ import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { IStackOueueLoader } from "../../types/stack-queue-page";
 
 const stack = new Stack<string>();
-const MAXLEN = 9;
+const MAXLEN = 4;
+const MAXSIZE = 8;
 
 export const StackPage: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -90,10 +91,10 @@ export const StackPage: React.FC = () => {
       <form className={style.form} onSubmit={(e) => e.preventDefault()}>
         <div className={style.input_group}>
           <Input
-            disabled={isLoader.disabled}
+            disabled={isLoader.disabled || stackArray.length > MAXSIZE}
             onChange={onChange}
             isLimitText={true}
-            maxLength={4}
+            maxLength={MAXLEN}
             value={inputValue}
             extraClass="mr-6"
           />
@@ -101,7 +102,7 @@ export const StackPage: React.FC = () => {
             isLoader={isLoader.addValue}
             text="Добавить"
             onClick={() => push(inputValue)}
-            disabled={!inputValue || isLoader.disabled || Number(inputValue) >= MAXLEN}
+            disabled={!inputValue || isLoader.disabled || stackArray.length > MAXSIZE}
             extraClass="mr-6"
           />
           <Button
