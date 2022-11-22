@@ -53,7 +53,6 @@ export const StringComponent: FC = () => {
     >
       <form className={style.form} onSubmit={onClickRevers}>
         <Input
-          data-testid="input"
           onChange={onChange}
           isLimitText={true}
           maxLength={MAXLEN}
@@ -61,7 +60,6 @@ export const StringComponent: FC = () => {
           extraClass="mr-6"
         />
         <Button
-          data-testid="button"
           isLoader={isLoader}
           text="Развернуть"
           onClick={onClickRevers}
@@ -72,7 +70,6 @@ export const StringComponent: FC = () => {
         {reversArray.map((letter: string, index: number) => {
           return (
             <Circle
-              data-testid="button"
               key={index}
               letter={letter}
               index={index + 1}
