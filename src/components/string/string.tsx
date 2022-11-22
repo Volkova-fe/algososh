@@ -5,7 +5,7 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { delay } from "../../utils";
-import { MAXLEN, reversString, stateCircle, swap } from "./utils";
+import { MAXLEN, stateCircle, swap } from "./utils";
 import { DELAY_IN_MS } from "../../constants/delays";
 
 export const StringComponent: FC = () => {
@@ -19,9 +19,31 @@ export const StringComponent: FC = () => {
     setInputValue(string);
   }
 
+  const reversString = async (string: string): Promise<string[]> => {
+    const arrayOfLetters = string.split('');
+    let end = arrayOfLetters.length;
+
+    setCurrentIndex(0);
+    setIsLoader(true);
+    setReversArray([...arrayOfLetters]);
+    await delay(DELAY_IN_MS);
+
+    for (let i = 0; i < Math.floor(end / 2); i++) {
+      swap(arrayOfLetters, i, end - 1);
+      setCurrentIndex(i => i + 1);
+      setReversArray([...arrayOfLetters]);
+      await delay(DELAY_IN_MS);
+    }
+
+    setCurrentIndex(i => i + 1);
+    setIsLoader(false);
+
+    return arrayOfLetters;
+  }
+
   const onClickRevers = (e: FormEvent<HTMLFormElement> | FormEvent<HTMLButtonElement>): void => {
     e.preventDefault();
-    reversString(inputValue, setCurrentIndex, setIsLoader, setReversArray, delay);
+    reversString(inputValue);
     setInputValue('');
   }
 
@@ -50,7 +72,7 @@ export const StringComponent: FC = () => {
         {reversArray.map((letter: string, index: number) => {
           return (
             <Circle
-              data-testid="circle"
+              data-testid="button"
               key={index}
               letter={letter}
               index={index + 1}

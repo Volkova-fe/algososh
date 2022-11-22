@@ -19,7 +19,7 @@ const testString = (inputValue, result) => {
 	fireEvent.change(input, { target: { value: inputValue } });
 	fireEvent.click(button);
 
-	act(() => jest.advanceTimersByTime(11000));
+	act(() => jest.advanceTimersByTime(30000));
 
 	const elements = screen.getAllByTestId('circle');
 
@@ -33,7 +33,7 @@ const testString = (inputValue, result) => {
 
 describe('Тестирование компонента StringComponent', () => {
 	it('Корректно разворачивает строку с чётным количеством символов.', () => {
-		testString('123456', '654321');
+		testString('12345', '54321');
 	});
 	it('Корректно разворачивает строку с нечётным количеством символов.', () => {
 		testString('12345', '54321');
