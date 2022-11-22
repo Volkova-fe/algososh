@@ -2,7 +2,7 @@ import React from 'react';
 import TestRenderer from 'react-test-renderer';
 import { render, screen, fireEvent } from '@testing-library/react';
 
-import { Button } from './button';
+import { Button } from '../button';
 
 describe('Тестирование компонента Button', () => {
 
@@ -22,7 +22,7 @@ describe('Тестирование компонента Button', () => {
 
 	it('Кнопка заблокирована, рендерится без ошибок', () => {
 		const button = TestRenderer
-			.create(<Button disabled={true} />)
+			.create(<Button disabled />)
 			.toJSON()
 		expect(button).toMatchSnapshot()
 	})

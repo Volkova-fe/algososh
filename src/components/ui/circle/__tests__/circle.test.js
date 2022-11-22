@@ -2,8 +2,8 @@ import React from 'react';
 import TestRenderer from 'react-test-renderer';
 import { render, screen, fireEvent } from '@testing-library/react';
 
-import { Circle } from './circle';
-import { ElementStates } from '../../../types/element-states';
+import { Circle } from '../circle';
+import { ElementStates } from '../../../../types/element-states';
 
 describe('Тестирование компонента Circle', () => {
 

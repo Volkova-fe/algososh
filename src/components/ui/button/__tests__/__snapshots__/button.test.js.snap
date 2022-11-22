@@ -3,6 +3,7 @@
 exports[`Тестирование компонента Button Кнопка c индикацией загрузки рендерится без ошибок 1`] = `
 <button
   className="text text_type_button text_color_primary button undefined loader "
+  data-testid="button"
   disabled={true}
   type="button"
 >
@@ -17,6 +18,7 @@ exports[`Тестирование компонента Button Кнопка c и�
 exports[`Тестирование компонента Button Кнопка c текстом рендерится без ошибок 1`] = `
 <button
   className="text text_type_button text_color_primary button undefined false "
+  data-testid="button"
   type="button"
 >
   <p
@@ -30,6 +32,7 @@ exports[`Тестирование компонента Button Кнопка c т�
 exports[`Тестирование компонента Button Кнопка без текста рендерится без ошибок 1`] = `
 <button
   className="text text_type_button text_color_primary button undefined false "
+  data-testid="button"
   type="button"
 >
   <p
@@ -41,6 +44,7 @@ exports[`Тестирование компонента Button Кнопка бе�
 exports[`Тестирование компонента Button Кнопка заблокирована, рендерится без ошибок 1`] = `
 <button
   className="text text_type_button text_color_primary button undefined false "
+  data-testid="button"
   disabled={true}
   type="button"
 >
