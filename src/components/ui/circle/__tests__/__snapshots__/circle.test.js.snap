@@ -9,10 +9,11 @@ exports[`Тестирование компонента Circle Circle без бу
   />
   <div
     className="circle   default"
+    data-testid="circle_border"
   >
     <p
       className="text text_type_circle text_color_input letter"
-      data-testid="circle"
+      data-testid="circle_text"
     />
   </div>
   <p
@@ -33,10 +34,11 @@ exports[`Тестирование компонента Circle Circle в сост
   />
   <div
     className="circle   changing"
+    data-testid="circle_border"
   >
     <p
       className="text text_type_circle text_color_input letter"
-      data-testid="circle"
+      data-testid="circle_text"
     />
   </div>
   <p
@@ -57,10 +59,11 @@ exports[`Тестирование компонента Circle Circle в сост
   />
   <div
     className="circle   default"
+    data-testid="circle_border"
   >
     <p
       className="text text_type_circle text_color_input letter"
-      data-testid="circle"
+      data-testid="circle_text"
     />
   </div>
   <p
@@ -81,10 +84,11 @@ exports[`Тестирование компонента Circle Circle в сост
   />
   <div
     className="circle   modified"
+    data-testid="circle_border"
   >
     <p
       className="text text_type_circle text_color_input letter"
-      data-testid="circle"
+      data-testid="circle_text"
     />
   </div>
   <p
@@ -107,10 +111,11 @@ exports[`Тестирование компонента Circle Circle с head р�
   </div>
   <div
     className="circle   default"
+    data-testid="circle_border"
   >
     <p
       className="text text_type_circle text_color_input letter"
-      data-testid="circle"
+      data-testid="circle_text"
     />
   </div>
   <p
@@ -131,10 +136,11 @@ exports[`Тестирование компонента Circle Circle с index р
   />
   <div
     className="circle   default"
+    data-testid="circle_border"
   >
     <p
       className="text text_type_circle text_color_input letter"
-      data-testid="circle"
+      data-testid="circle_text"
     />
   </div>
   <p
@@ -163,10 +169,11 @@ exports[`Тестирование компонента Circle Circle с react-э
       />
       <div
         className="circle   default"
+        data-testid="circle_border"
       >
         <p
           className="text text_type_circle text_color_input letter"
-          data-testid="circle"
+          data-testid="circle_text"
         />
       </div>
       <p
@@ -179,10 +186,11 @@ exports[`Тестирование компонента Circle Circle с react-э
   </div>
   <div
     className="circle   default"
+    data-testid="circle_border"
   >
     <p
       className="text text_type_circle text_color_input letter"
-      data-testid="circle"
+      data-testid="circle_text"
     />
   </div>
   <p
@@ -203,10 +211,11 @@ exports[`Тестирование компонента Circle Circle с react-э
   />
   <div
     className="circle   default"
+    data-testid="circle_border"
   >
     <p
       className="text text_type_circle text_color_input letter"
-      data-testid="circle"
+      data-testid="circle_text"
     />
   </div>
   <p
@@ -223,10 +232,11 @@ exports[`Тестирование компонента Circle Circle с react-э
       />
       <div
         className="circle   default"
+        data-testid="circle_border"
       >
         <p
           className="text text_type_circle text_color_input letter"
-          data-testid="circle"
+          data-testid="circle_text"
         />
       </div>
       <p
@@ -249,10 +259,11 @@ exports[`Тестирование компонента Circle Circle с tail р�
   />
   <div
     className="circle   default"
+    data-testid="circle_border"
   >
     <p
       className="text text_type_circle text_color_input letter"
-      data-testid="circle"
+      data-testid="circle_text"
     />
   </div>
   <p
@@ -275,10 +286,11 @@ exports[`Тестирование компонента Circle Circle с букв
   />
   <div
     className="circle   default"
+    data-testid="circle_border"
   >
     <p
       className="text text_type_circle text_color_input letter"
-      data-testid="circle"
+      data-testid="circle_text"
     >
       1
     </p>
@@ -301,10 +313,11 @@ exports[`Тестирование компонента Circle Circle с проп
   />
   <div
     className="circle  small default"
+    data-testid="circle_border"
   >
     <p
       className="text text_type_circle text_color_input letter"
-      data-testid="circle"
+      data-testid="circle_text"
     />
   </div>
   <p

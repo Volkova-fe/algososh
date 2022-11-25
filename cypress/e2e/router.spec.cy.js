@@ -1,20 +1,26 @@
+import { baseUrl } from '../constants/test';
+
 describe('Сервер доступен', function () {
+	beforeEach(() => {
+		cy.visit('');
+	})
 	it('Должен быть доступен по адресу localhost:3000', function () {
-		cy.visit('http://localhost:3000/recursion');
+		cy.get('a[href*="/recursion"]').click()
 	});
 	it('Должен быть доступен по адресу localhost:3000', function () {
-		cy.visit('http://localhost:3000/fibonacci');
+		cy.get('a[href*="/fibonacci"]').click()
 	});
 	it('Должен быть доступен по адресу localhost:3000', function () {
-		cy.visit('http://localhost:3000/sorting');
+		cy.get('a[href*="/sorting"]').click()
 	});
 	it('Должен быть доступен по адресу localhost:3000', function () {
-		cy.visit('http://localhost:3000/stack');
+		cy.get('a[href*="/stack"]').click()
 	});
 	it('Должен быть доступен по адресу localhost:3000', function () {
-		cy.visit('http://localhost:3000/queue');
+		cy.get('a[href*="/queue"]').click()
 	});
 	it('Должен быть доступен по адресу localhost:3000', function () {
-		cy.visit('http://localhost:3000/list');
+		cy.get('a[href*="/list"]').click()
+
 	});
 }); 

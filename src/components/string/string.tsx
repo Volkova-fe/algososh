@@ -51,8 +51,10 @@ export const StringComponent: FC = () => {
     <SolutionLayout
       title="Строка"
     >
-      <form className={style.form} onSubmit={onClickRevers}>
+      <form className={style.form} onSubmit={onClickRevers} data-cy="form">
         <Input
+          data-cy="input"
+          disabled={isLoader}
           onChange={onChange}
           isLimitText={true}
           maxLength={MAXLEN}
@@ -60,6 +62,7 @@ export const StringComponent: FC = () => {
           extraClass="mr-6"
         />
         <Button
+          data-cy="submit"
           isLoader={isLoader}
           text="Развернуть"
           onClick={onClickRevers}
