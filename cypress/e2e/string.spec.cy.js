@@ -123,8 +123,11 @@ describe('Корректная работа строки', () => {
 				.then(classList => expect(classList).contains(modifiedtStyle))
 			cy.get(elem[2])
 				.children().should('have.text', 'l')
-
 		})
+
+		cy.get(mainCircle)
+		.invoke('attr', 'class')
+		.then(classList => expect(classList).contains(modifiedtStyle))
 
 		cy.get(dataCyForm).within(() => {
 			cy.get(dataCyInput).should('have.value', '')
