@@ -1,8 +1,17 @@
 import { DELAY_IN_MS } from "../../src/constants/delays";
-import { changingStyle, dataCyAdd, dataCyClear, dataCyForm, dataCyInput, dataCyRemove, defaultStyle, mainCircle } from "../constants/test";
+import { 
+	changingStyle, 
+	dataCyAdd, 
+	dataCyClear, 
+	dataCyForm, 
+	dataCyInput, 
+	dataCyRemove, 
+	defaultStyle, 
+	mainCircle 
+} from "../constants/test";
 
 
-describe('Корректная работа Фибоначчи', () => {
+describe('Корректная работа стэка', () => {
 	const addNextElem = (value) => {
 		cy.clock()
 		cy.get(dataCyForm)
@@ -52,10 +61,10 @@ describe('Корректная работа Фибоначчи', () => {
 			})
 	})
 
-	it(' Добавление элемента в стек корректно', function () {
+	it('Добавление элемента в стек корректно', function () {
 		cy.clock()
-
 		addFirstElem('5')
+		
 		cy.get(mainCircle)
 			.invoke('attr', 'class')
 			.then(classList => expect(classList).contains(changingStyle))
@@ -84,6 +93,7 @@ describe('Корректная работа Фибоначчи', () => {
 			cy.get(elem[1])
 				.children().should('have.text', '6')
 		})
+
 		cy.tick(DELAY_IN_MS)
 
 		cy.get(mainCircle)
@@ -111,6 +121,7 @@ describe('Корректная работа Фибоначчи', () => {
 			cy.get(elem[2])
 				.children().should('have.text', '7')
 		})
+
 		cy.tick(DELAY_IN_MS)
 
 		cy.get(mainCircle)
@@ -121,11 +132,8 @@ describe('Корректная работа Фибоначчи', () => {
 	it('Корректное удаления элемента из стека', function () {
 		cy.clock()
 		addFirstElem('5')
-
 		cy.tick(DELAY_IN_MS)
-
 		addNextElem('6')
-
 
 		cy.get(dataCyForm).within(() => {
 			cy.get(dataCyInput).should('have.value', '')
@@ -167,6 +175,7 @@ describe('Корректная работа Фибоначчи', () => {
 		})
 
 		cy.tick(DELAY_IN_MS)
+
 		cy.get(mainCircle).should('not.exist');
 
 		cy.get(dataCyForm)
