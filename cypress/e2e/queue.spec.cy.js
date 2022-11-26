@@ -65,6 +65,10 @@ describe('Корректная работа очереди', () => {
 
 	it('Добавление элемента в очередь корректно', function () {
 		cy.clock()
+		cy.get(mainCircle).should('have.length', 7)
+			.invoke('attr', 'class')
+			.then(classList => expect(classList).contains(defaultStyle))
+			
 		addFirstElem('5')
 
 		cy.get(mainCircle)

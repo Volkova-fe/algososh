@@ -1,11 +1,11 @@
-import { 
-	changingStyle, 
-	dataCyForm, 
-	dataCyInput, 
-	dataCySubmit, 
-	defaultStyle, 
-	mainCircle, 
-	modifiedtStyle 
+import {
+	changingStyle,
+	dataCyForm,
+	dataCyInput,
+	dataCySubmit,
+	defaultStyle,
+	mainCircle,
+	modifiedtStyle
 } from '../constants/test';
 import { DELAY_IN_MS } from "../../src/constants/delays";
 
@@ -126,8 +126,8 @@ describe('Корректная работа строки', () => {
 		})
 
 		cy.get(mainCircle)
-		.invoke('attr', 'class')
-		.then(classList => expect(classList).contains(modifiedtStyle))
+			.invoke('attr', 'class')
+			.then(classList => expect(classList).contains(modifiedtStyle))
 
 		cy.get(dataCyForm).within(() => {
 			cy.get(dataCyInput).should('have.value', '')
