@@ -1,4 +1,3 @@
-import { baseUrl } from '../constants/test';
 
 describe('Сервер доступен', function () {
 	beforeEach(() => {

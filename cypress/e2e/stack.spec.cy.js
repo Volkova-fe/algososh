@@ -1,13 +1,13 @@
 import { DELAY_IN_MS } from "../../src/constants/delays";
-import { 
-	changingStyle, 
-	dataCyAdd, 
-	dataCyClear, 
-	dataCyForm, 
-	dataCyInput, 
-	dataCyRemove, 
-	defaultStyle, 
-	mainCircle 
+import {
+	changingStyle,
+	dataCyAdd,
+	dataCyClear,
+	dataCyForm,
+	dataCyInput,
+	dataCyRemove,
+	defaultStyle,
+	mainCircle
 } from "../constants/test";
 
 
@@ -64,7 +64,7 @@ describe('Корректная работа стэка', () => {
 	it('Добавление элемента в стек корректно', function () {
 		cy.clock()
 		addFirstElem('5')
-		
+
 		cy.get(mainCircle)
 			.invoke('attr', 'class')
 			.then(classList => expect(classList).contains(changingStyle))
