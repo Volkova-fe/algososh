@@ -3,6 +3,7 @@ import TestRenderer from 'react-test-renderer';
 import { render, screen, fireEvent } from '@testing-library/react';
 
 import { Button } from '../button';
+import { Direction } from '../../../../types/direction';
 
 describe('Тестирование компонента Button', () => {
 
@@ -30,6 +31,34 @@ describe('Тестирование компонента Button', () => {
 	it('Кнопка c индикацией загрузки рендерится без ошибок', () => {
 		const button = TestRenderer
 			.create(<Button isLoader={true} />)
+			.toJSON()
+		expect(button).toMatchSnapshot()
+	})
+
+	it('Кнопка c сортировкой по возрастанию рендерится без ошибок', () => {
+		const button = TestRenderer
+			.create(<Button sorting={Direction.Ascending} />)
+			.toJSON()
+		expect(button).toMatchSnapshot()
+	})
+
+	it('Кнопка c сортировкой по убыванию рендерится без ошибок', () => {
+		const button = TestRenderer
+			.create(<Button sorting={Direction.Descending} />)
+			.toJSON()
+		expect(button).toMatchSnapshot()
+	})
+
+	it('Кнопка списка большая рендерится без ошибок', () => {
+		const button = TestRenderer
+			.create(<Button linkedList='big'/>)
+			.toJSON()
+		expect(button).toMatchSnapshot()
+	})
+
+	it('Кнопка списка маленькая рендерится без ошибок', () => {
+		const button = TestRenderer
+			.create(<Button linkedList='small' />)
 			.toJSON()
 		expect(button).toMatchSnapshot()
 	})
