@@ -26,7 +26,7 @@ export const selectionSort = (array: IRandomArr[]) => {
 				maxInd = j;
 			}
 		}
-		if (maxInd != i) {
+		if (maxInd !== i) {
 			swap(array, i, maxInd);
 		}
 	}

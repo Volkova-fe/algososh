@@ -29,7 +29,6 @@ describe('Корректная работа строки', () => {
 				cy.get(dataCyInput).should('be.disabled')
 			})
 
-		cy.tick(DELAY_IN_MS)
 
 		cy.get(mainCircle).then((elem) => {
 			cy.get(elem[0])
@@ -63,7 +62,7 @@ describe('Корректная работа строки', () => {
 				.children().should('have.text', 'o')
 		})
 
-		cy.wait(DELAY_IN_MS)
+		cy.tick(DELAY_IN_MS)
 
 		cy.get(mainCircle).then((elem) => {
 			cy.get(elem[0])
@@ -92,7 +91,6 @@ describe('Корректная работа строки', () => {
 		})
 
 		cy.tick(DELAY_IN_MS)
-		cy.wait(DELAY_IN_MS)
 
 		cy.get(mainCircle).then((elem) => {
 			cy.get(elem[1])

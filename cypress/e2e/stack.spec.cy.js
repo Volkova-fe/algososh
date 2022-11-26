@@ -28,6 +28,9 @@ describe('Корректная работа стэка', () => {
 				cy.get(dataCyRemove).should('be.disabled')
 				cy.get(dataCyClear).should('be.disabled')
 			})
+			cy.get(mainCircle).contains(value).parent()
+			.invoke('attr', 'class')
+			.then(classList => expect(classList).contains(changingStyle))
 		cy.tick(DELAY_IN_MS)
 	}
 
@@ -46,6 +49,11 @@ describe('Корректная работа стэка', () => {
 				cy.get(dataCyRemove).should('be.disabled')
 				cy.get(dataCyClear).should('be.disabled')
 			})
+
+		cy.get(mainCircle).contains(value).parent()
+			.invoke('attr', 'class')
+			.then(classList => expect(classList).contains(changingStyle))
+		cy.tick(DELAY_IN_MS)
 	}
 
 	beforeEach(() => {
@@ -67,19 +75,10 @@ describe('Корректная работа стэка', () => {
 
 		cy.get(mainCircle)
 			.invoke('attr', 'class')
-			.then(classList => expect(classList).contains(changingStyle))
-
-		cy.tick(DELAY_IN_MS)
-		cy.wait(DELAY_IN_MS)
-
-		cy.get(mainCircle)
-			.invoke('attr', 'class')
 			.then(classList => expect(classList).contains(defaultStyle))
 
-		cy.tick(DELAY_IN_MS)
-
 		addNextElem('6')
-		cy.clock()
+
 		cy.get(mainCircle).then((elem) => {
 			cy.get(elem[0])
 				.invoke('attr', 'class')
@@ -89,19 +88,13 @@ describe('Корректная работа стэка', () => {
 
 			cy.get(elem[1])
 				.invoke('attr', 'class')
-				.then(classList => expect(classList).contains(changingStyle))
+				.then(classList => expect(classList).contains(defaultStyle))
 			cy.get(elem[1])
 				.children().should('have.text', '6')
 		})
 
-		cy.tick(DELAY_IN_MS)
-
-		cy.get(mainCircle)
-			.invoke('attr', 'class')
-			.then(classList => expect(classList).contains(defaultStyle))
-
 		addNextElem('7')
-		cy.clock()
+
 		cy.get(mainCircle).then((elem) => {
 			cy.get(elem[0])
 				.invoke('attr', 'class')
@@ -117,16 +110,10 @@ describe('Корректная работа стэка', () => {
 
 			cy.get(elem[2])
 				.invoke('attr', 'class')
-				.then(classList => expect(classList).contains(changingStyle))
+				.then(classList => expect(classList).contains(defaultStyle))
 			cy.get(elem[2])
 				.children().should('have.text', '7')
 		})
-
-		cy.tick(DELAY_IN_MS)
-
-		cy.get(mainCircle)
-			.invoke('attr', 'class')
-			.then(classList => expect(classList).contains(defaultStyle))
 	})
 
 	it('Корректное удаления элемента из стека', function () {

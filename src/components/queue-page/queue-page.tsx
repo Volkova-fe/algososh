@@ -126,7 +126,7 @@ export const QueuePage: React.FC = () => {
           data-cy="clear"
           text="Очистить"
           isLoader={isLoader.clearValue}
-          disabled={head === 0 && tail === 0 || isLoader.disabled}
+          disabled={(head === 0 && tail === 0 )|| isLoader.disabled}
           onClick={() => clear()}
         />
       </form>

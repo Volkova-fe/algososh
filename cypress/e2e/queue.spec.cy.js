@@ -14,6 +14,7 @@ import {
 describe('Корректная работа очереди', () => {
 	const addNextElem = (value) => {
 		cy.clock()
+
 		cy.get(dataCyForm)
 			.within(() => {
 				cy.get(dataCyInput).type(value)
@@ -21,18 +22,25 @@ describe('Корректная работа очереди', () => {
 				cy.get(dataCyRemove).should('be.not.disabled')
 				cy.get(dataCyClear).should('be.not.disabled')
 			})
+
 		cy.tick(DELAY_IN_MS)
+
 		cy.get(dataCyForm)
 			.within(() => {
 				cy.get(dataCyAdd).click()
 				cy.get(dataCyRemove).should('be.disabled')
 				cy.get(dataCyClear).should('be.disabled')
 			})
+		cy.get(mainCircle).contains(value).parent()
+			.invoke('attr', 'class')
+			.then(classList => expect(classList).contains(changingStyle))
+
 		cy.tick(DELAY_IN_MS)
 	}
 
 	const addFirstElem = (value) => {
 		cy.clock()
+
 		cy.get(dataCyForm)
 			.within(() => {
 				cy.get(dataCyInput).type(value)
@@ -40,13 +48,19 @@ describe('Корректная работа очереди', () => {
 				cy.get(dataCyRemove).should('be.disabled')
 				cy.get(dataCyClear).should('be.disabled')
 			})
+
 		cy.tick(DELAY_IN_MS)
+
 		cy.get(dataCyForm)
 			.within(() => {
 				cy.get(dataCyAdd).click()
 				cy.get(dataCyRemove).should('be.disabled')
 				cy.get(dataCyClear).should('be.disabled')
 			})
+
+		cy.get(mainCircle).contains(value).parent()
+			.invoke('attr', 'class')
+			.then(classList => expect(classList).contains(changingStyle))
 		cy.tick(DELAY_IN_MS)
 	}
 
@@ -78,12 +92,7 @@ describe('Корректная работа очереди', () => {
 		cy.get(mainCircle)
 			.siblings('p').contains('0')
 
-		cy.get(mainCircle)
-			.invoke('attr', 'class')
-			.then(classList => expect(classList).contains(changingStyle))
-
 		cy.tick(DELAY_IN_MS)
-		cy.wait(DELAY_IN_MS)
 
 		cy.get(mainCircle)
 			.invoke('attr', 'class')
@@ -92,64 +101,25 @@ describe('Корректная работа очереди', () => {
 		cy.tick(DELAY_IN_MS)
 
 		addNextElem('6')
-		cy.clock()
-		cy.get(mainCircle).then((elem) => {
-			cy.get(elem[0])
-				.invoke('attr', 'class')
-				.then(classList => expect(classList).contains(defaultStyle))
-			cy.get(elem[0])
-				.children().should('have.text', '5')
 
-			cy.get(elem[1])
-				.invoke('attr', 'class')
-				.then(classList => expect(classList).contains(changingStyle))
-			cy.get(elem[1])
-				.children().should('have.text', '6')
-		})
 		cy.get(mainCircle)
 			.contains('6').parent('div')
 			.nextAll().contains('tail')
 		cy.get(mainCircle)
 			.siblings('p').contains('1')
-
-		cy.tick(DELAY_IN_MS)
-
 		cy.get(mainCircle)
 			.invoke('attr', 'class')
 			.then(classList => expect(classList).contains(defaultStyle))
 
-		cy.wait(DELAY_IN_MS)
 		cy.tick(DELAY_IN_MS)
 
 		addNextElem('7')
-		cy.clock()
-		cy.get(mainCircle).then((elem) => {
-			cy.get(elem[0])
-				.invoke('attr', 'class')
-				.then(classList => expect(classList).contains(defaultStyle))
-			cy.get(elem[0])
-				.children().should('have.text', '5')
-
-			cy.get(elem[1])
-				.invoke('attr', 'class')
-				.then(classList => expect(classList).contains(defaultStyle))
-			cy.get(elem[1])
-				.children().should('have.text', '6')
-
-			cy.get(elem[2])
-				.invoke('attr', 'class')
-				.then(classList => expect(classList).contains(changingStyle))
-			cy.get(elem[2])
-				.children().should('have.text', '7')
-		})
+		
 		cy.get(mainCircle)
 			.contains('7').parent('div')
 			.nextAll().contains('tail')
 		cy.get(mainCircle)
 			.siblings('p').contains('2')
-
-		cy.tick(DELAY_IN_MS)
-
 		cy.get(mainCircle)
 			.invoke('attr', 'class')
 			.then(classList => expect(classList).contains(defaultStyle))
@@ -159,17 +129,14 @@ describe('Корректная работа очереди', () => {
 		cy.clock()
 		addFirstElem('5')
 
-		cy.wait(DELAY_IN_MS)
 		cy.tick(DELAY_IN_MS)
 
 		addNextElem('6')
 
-		cy.wait(DELAY_IN_MS)
 		cy.tick(DELAY_IN_MS)
 
 		addNextElem('7')
 
-		cy.wait(DELAY_IN_MS)
 		cy.tick(DELAY_IN_MS)
 
 		cy.get(dataCyForm).within(() => {
@@ -178,13 +145,17 @@ describe('Корректная работа очереди', () => {
 			cy.get(dataCyRemove).click()
 		})
 
+		cy.get(mainCircle).first()
+			.invoke('attr', 'class')
+			.then(classList => expect(classList).contains(changingStyle))
+
 		cy.tick(DELAY_IN_MS)
 
 		cy.get(mainCircle).then((elem) => {
 			cy.get(elem[0]).children().should('be.empty')
 			cy.get(elem[0])
 				.invoke('attr', 'class')
-				.then(classList => expect(classList).contains(changingStyle))
+				.then(classList => expect(classList).contains(defaultStyle))
 
 			cy.get(elem[1])
 				.invoke('attr', 'class')
@@ -199,7 +170,6 @@ describe('Корректная работа очереди', () => {
 				.children().should('have.text', '7')
 		})
 
-		cy.wait(DELAY_IN_MS)
 		cy.tick(DELAY_IN_MS)
 
 		cy.get(dataCyForm)
@@ -215,17 +185,14 @@ describe('Корректная работа очереди', () => {
 		cy.clock()
 		addFirstElem('5')
 
-		cy.wait(DELAY_IN_MS)
 		cy.tick(DELAY_IN_MS)
 
 		addNextElem('6')
 
-		cy.wait(DELAY_IN_MS)
 		cy.tick(DELAY_IN_MS)
 
 		addNextElem('7')
 
-		cy.wait(DELAY_IN_MS)
 		cy.tick(DELAY_IN_MS)
 
 		cy.get(dataCyForm).within(() => {
