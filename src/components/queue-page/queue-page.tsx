@@ -95,9 +95,10 @@ export const QueuePage: React.FC = () => {
 
   return (
     <SolutionLayout title="Очередь">
-      <form className={style.form} onSubmit={(e) => e.preventDefault()}>
+      <form className={style.form} onSubmit={(e) => e.preventDefault()} data-cy="form">
         <div className={style.input_group}>
           <Input
+            data-cy="input"
             onChange={onChange}
             isLimitText={true}
             maxLength={MAXLEN}
@@ -106,6 +107,7 @@ export const QueuePage: React.FC = () => {
             disabled={isLoader.disabled}
           />
           <Button
+            data-cy="add"
             text="Добавить"
             isLoader={isLoader.addValue}
             disabled={!inputValue || tail === SIZE || isLoader.disabled}
@@ -113,6 +115,7 @@ export const QueuePage: React.FC = () => {
             onClick={() => enqueue(inputValue)}
           />
           <Button
+            data-cy="remove"
             text="Удалить"
             isLoader={isLoader.removeValue}
             onClick={() => dequeue()}
@@ -120,9 +123,10 @@ export const QueuePage: React.FC = () => {
           />
         </div>
         <Button
+          data-cy="clear"
           text="Очистить"
           isLoader={isLoader.clearValue}
-          disabled={head === 0 && tail === 0 || isLoader.disabled}
+          disabled={(head === 0 && tail === 0 )|| isLoader.disabled}
           onClick={() => clear()}
         />
       </form>

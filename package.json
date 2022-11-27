@@ -2,10 +2,9 @@
   "name": "algorithms-project",
   "version": "0.1.0",
   "private": false,
-  "homepage": "https://volkova-fe.github.io/algososh",
+  "homepage": "https://volkova-fe.github.io/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.0",
     "@types/node": "^16.11.22",
@@ -24,6 +23,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "cypress:open": "./node_modules/.bin/cypress open",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
@@ -47,7 +47,14 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react": "^12.1.5",
     "@types/react-router-dom": "^5.3.3",
-    "gh-pages": "^4.0.0"
+    "@types/react-test-renderer": "^18.0.0",
+    "cypress": "^11.2.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "fetch-mock": "^9.11.0",
+    "gh-pages": "^4.0.0",
+    "react-test-renderer": "^17.0.2",
+    "redux-mock-store": "^1.5.4"
   }
 }

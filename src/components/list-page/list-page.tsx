@@ -235,8 +235,9 @@ export const ListPage: React.FC = () => {
 
     return (
         <SolutionLayout title="Связный список">
-            <form className={style.form} onSubmit={(e) => e.preventDefault()}>
+            <form className={style.form} onSubmit={(e) => e.preventDefault()} data-cy="form">
                 <Input
+                    data-cy="input"
                     onChange={onChangeValue}
                     placeholder="Введите значение"
                     isLimitText={true}
@@ -247,6 +248,7 @@ export const ListPage: React.FC = () => {
                 />
                 <div className={style.btns_group}>
                     <Button
+                        data-cy="add_head"
                         text="Добавить в head"
                         extraClass={style.btn_small}
                         onClick={handleClickAddHead}
@@ -254,6 +256,7 @@ export const ListPage: React.FC = () => {
                         disabled={!inputValue || disabled || listArray.length >= MAXINDEX}
                     />
                     <Button
+                        data-cy="add"
                         text="Добавить в tail"
                         extraClass={style.btn_small}
                         onClick={handleClickAddTail}
@@ -261,6 +264,7 @@ export const ListPage: React.FC = () => {
                         isLoader={isLoader.insertAtEnd}
                     />
                     <Button
+                        data-cy="remove_head"
                         text="Удалить из head"
                         extraClass={style.btn_small}
                         onClick={handleClickRemoveHead}
@@ -268,6 +272,7 @@ export const ListPage: React.FC = () => {
                         disabled={listArray.length <= 1 || disabled}
                     />
                     <Button
+                        data-cy="remove"
                         text="Удалить из tail"
                         extraClass={style.btn_small}
                         onClick={handleClickRemoveTail}
@@ -276,8 +281,9 @@ export const ListPage: React.FC = () => {
                     />
                 </div>
             </form>
-            <form className={style.form} onSubmit={(e) => e.preventDefault()}>
+            <form className={style.form} onSubmit={(e) => e.preventDefault()} data-cy="form__by_index">
                 <Input
+                    data-cy="index"
                     onChange={onChangeIndex}
                     isLimitText={false}
                     type="number"
@@ -290,6 +296,7 @@ export const ListPage: React.FC = () => {
                 />
                 <div className={style.btns_group}>
                     <Button
+                        data-cy="add_by_index"
                         text="Добавить по индексу"
                         extraClass={`${style.btn_large} mr-6`}
                         onClick={handleClickAddByIndex}
@@ -303,6 +310,7 @@ export const ListPage: React.FC = () => {
                         }
                     />
                     <Button
+                        data-cy="remove_by_index"
                         text="Удалить по индексу"
                         extraClass={`${style.btn_large}`}
                         onClick={handleClickRemoveByIndex}
